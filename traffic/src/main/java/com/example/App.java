@@ -3,6 +3,9 @@ package com.example;
 import com.example.Models.TrafficLight;
 import com.example.Models.Vechicle;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class App 
 {
     public static void main( String[] args )
@@ -11,31 +14,31 @@ public class App
         // Need to use synchronzie to share the car object with each thread
         Vechicle car = new Vechicle();
 
-        TrafficLight north = new TrafficLight();
-        TrafficLight south = new TrafficLight();
-        TrafficLight east = new TrafficLight();
-        TrafficLight west = new TrafficLight();
-    
-        north.direction = "north";
-        north.status = true; 
-
-        south.direction = "south";
-        south.status = false; 
-
-        west.direction = "west";
-        west.status = false; 
-
-        east.direction = "east";
-        east.status = false; 
+        final TrafficLight north = new TrafficLight("north");
+        final TrafficLight south = new TrafficLight("south");
+        final TrafficLight east = new TrafficLight("east");
+        final TrafficLight west = new TrafficLight("west");
 
         north.start();
         east.start();
         west.start();
         south.start();
 
-        east.status = true;
-        north.status = false;
+        north.status = true;
+        south.status = true;
+        
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                north.toggleStatus();
+                south.toggleStatus();
+                east.toggleStatus();
+                west.toggleStatus();
 
+                System.err.println("\n light switch \n");
+            }
+        }, 0, 5000);
 
     }
 }

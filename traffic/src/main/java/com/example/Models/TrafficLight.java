@@ -5,30 +5,32 @@ public class TrafficLight extends Thread {
     public boolean status;
     public Vechicle car;
 
+    public TrafficLight (String direction) {
+        this.direction = direction;
+    }
+    
+    public synchronized void toggleStatus() {
+        status = !status;
+    }
+
+    public synchronized void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    public synchronized boolean getStatus() {
+        return status;
+    }
+
     @Override
     public void run() {
 
+        // Vechicle Behavior here
+
             while (true) {
                 if (status) {
-                    if (direction == "north") {
-                        System.out.println("north light is on");
-                    } else if (direction == "south") {
-                        System.out.println("south light is on");
-                    } else if (direction == "west") {
-                        System.out.println("west light is on");
-                    } else if (direction == "east") {
-                        System.out.println("east light is on");
-                    }
+                    System.out.println(direction + " light is green");
                 } else {
-                    if (direction == "north") {
-                        System.out.println("north light is off");
-                    } else if (direction == "south") {
-                        System.out.println("south light is off");
-                    } else if (direction == "west") {
-                        System.out.println("west light is off");
-                    } else if (direction == "east") {
-                        System.out.println("east light is off");
-                    }
+                    System.out.println(direction + " light is red");
                 }
 
                 try {
