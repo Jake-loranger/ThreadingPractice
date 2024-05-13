@@ -10,22 +10,18 @@ public class App
 {
     public static void main( String[] args )
     {
-
-        // Need to use synchronzie to share the car object with each thread
-        Vechicle car = new Vechicle();
-
         final TrafficLight north = new TrafficLight("north");
         final TrafficLight south = new TrafficLight("south");
         final TrafficLight east = new TrafficLight("east");
         final TrafficLight west = new TrafficLight("west");
 
+        north.setStatus(true);
+        south.setStatus(true);
+
         north.start();
         east.start();
         west.start();
         south.start();
-
-        north.status = true;
-        south.status = true;
         
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
@@ -36,7 +32,11 @@ public class App
                 east.toggleStatus();
                 west.toggleStatus();
 
-                System.err.println("\n light switch \n");
+                System.err.println("\nLight switch:");
+                System.err.println("North light has " + north.cars.size() + " in line.");
+                System.err.println("South light has " + south.cars.size() + " in line.");
+                System.err.println("East light has " + east.cars.size() + " in line.");
+                System.err.println("West light has " + west.cars.size() + " in line.\n");
             }
         }, 0, 5000);
 

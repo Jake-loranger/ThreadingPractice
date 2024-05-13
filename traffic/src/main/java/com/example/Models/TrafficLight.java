@@ -1,14 +1,16 @@
 package com.example.Models;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 public class TrafficLight extends Thread {
     public String direction;
     public boolean status;
-    public Vechicle car;
+    public ArrayList<Vechicle> cars = new ArrayList<Vechicle>();
 
     public TrafficLight (String direction) {
         this.direction = direction;
     }
-    
     public synchronized void toggleStatus() {
         status = !status;
     }
@@ -21,16 +23,51 @@ public class TrafficLight extends Thread {
         return status;
     }
 
+    public ArrayList<Vechicle> newCarArrival(ArrayList<Vechicle> cars) {
+        Vechicle newCar = new Vechicle();
+        String[] intendedDirections = {"straight", "left", "right"};
+        
+        int randomIndex = new Random().nextInt(intendedDirections.length); 
+
+        newCar.intendedDirection = intendedDirections[randomIndex];
+        newCar.currentDirection = direction;
+        newCar.speed = false;
+
+        cars.add(newCar);
+        return cars;
+    }
+
+    public ArrayList<Vechicle> carDepartures(ArrayList<Vechicle> cars) {
+        if (cars.size() >= 1) {
+            for (int i = 0; i < cars.size(); i++) {
+                if (cars.get(i).intendedDirection == "straight") {
+                    System.out.println("Car is going straight through the " + direction + " light");
+                    cars.remove(i);
+                } else if (cars.get(i).intendedDirection == "right") {
+                    System.out.println("Car is going right through the " + direction + " light");
+                    cars.remove(i);
+                } else if (cars.get(i).intendedDirection == "left") {
+                    System.out.println("Car is going left through the " + direction + " light");
+                    cars.remove(i);
+                }
+            }
+        }
+        
+        return cars;
+    }
+
     @Override
     public void run() {
 
-        // Vechicle Behavior here
-
             while (true) {
+                // Randomizes car arrivals
+                int randInt = new Random().nextInt(2);
+                if (randInt == 1) {
+                    newCarArrival(cars);
+                }
+
                 if (status) {
-                    System.out.println(direction + " light is green");
-                } else {
-                    System.out.println(direction + " light is red");
+                    carDepartures(cars);
                 }
 
                 try {
@@ -38,6 +75,7 @@ public class TrafficLight extends Thread {
                 } catch (InterruptedException e) {
 
                 }
+                
             }
         }
     }
