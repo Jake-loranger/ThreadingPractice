@@ -56,7 +56,6 @@ public class TrafficLight extends Thread {
 
     @Override
     public void run() {
-
             while (true) {
                 // Randomizes car arrivals
                 int randInt = new Random().nextInt(2);
@@ -73,7 +72,6 @@ public class TrafficLight extends Thread {
                 } catch (InterruptedException e) {
 
                 }
-                
             }
         }
     }
