@@ -39,17 +39,15 @@ public class TrafficLight extends Thread {
 
     public ArrayList<Vechicle> carDepartures(ArrayList<Vechicle> cars) {
         if (cars.size() >= 1) {
-            for (int i = 0; i < cars.size(); i++) {
-                if (cars.get(i).intendedDirection == "straight") {
-                    System.out.println("Car is going straight through the " + direction + " light");
-                    cars.remove(i);
-                } else if (cars.get(i).intendedDirection == "right") {
-                    System.out.println("Car is going right through the " + direction + " light");
-                    cars.remove(i);
-                } else if (cars.get(i).intendedDirection == "left") {
-                    System.out.println("Car is going left through the " + direction + " light");
-                    cars.remove(i);
-                }
+            if (cars.get(0).intendedDirection == "straight") {
+                System.out.println("Car is going straight through the " + direction + " light");
+                cars.remove(0);
+            } else if (cars.get(0).intendedDirection == "right") {
+                System.out.println("Car is going right through the " + direction + " light");
+                cars.remove(0);
+            } else if (cars.get(0).intendedDirection == "left") {
+                System.out.println("Car is going left through the " + direction + " light");
+                cars.remove(0);
             }
         }
         
